@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "TotalPresence",
+    "name": "TotalPresence",
+    "description": "",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://github.com/Minecraft-TA",
+    "updateUrl": "",
+    "authorList": ["Pelotrio"],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
