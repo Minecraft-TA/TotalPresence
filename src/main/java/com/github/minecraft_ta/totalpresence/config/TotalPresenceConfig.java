@@ -2,7 +2,6 @@ package com.github.minecraft_ta.totalpresence.config;
 
 import com.github.minecraft_ta.totalpresence.TotalPresence;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -12,9 +11,12 @@ public class TotalPresenceConfig {
     private final Configuration config;
 
     public String applicationID;
-    public String startupText;
-    public String titleText;
-    public String worldText;
+    public String startupState;
+    public String startupDetails;
+    public String titleState;
+    public String titleDetails;
+    public String worldState;
+    public String worldDetails;
 
     public TotalPresenceConfig(Configuration config) {
         this.config = config;
@@ -25,21 +27,23 @@ public class TotalPresenceConfig {
     public void onChange(ConfigChangedEvent event) {
         if (event.getModID().equals(TotalPresence.MOD_ID)) {
             this.load();
+            TotalPresence.INSTANCE.getDiscord().setPresence(worldState, worldDetails, "world");
         }
     }
 
     private void load() {
         this.config.load();
 
-        Property propertyApplicationID = this.config.get(CATEGORY_PRESENCE, "Application-ID", "843108003023552532", "Application ID for custom icons");
-        Property propertyStartupText = this.config.get(CATEGORY_PRESENCE, "StartupText", "Starting Minecraft", "Application ID for custom icons");
-        Property propertyTitleText = this.config.get(CATEGORY_PRESENCE, "TitleText", "Playing Minecraft", "Application ID for custom icons");
-        Property propertyWorldText = this.config.get(CATEGORY_PRESENCE, "WorldText", "Playing in world", "Application ID for custom icons");
+        this.applicationID = this.config.getString("Application-ID", CATEGORY_PRESENCE, "843108003023552532", "Application ID for custom icons");
 
-        applicationID = propertyApplicationID.getString();
-        startupText = propertyStartupText.getString();
-        titleText = propertyTitleText.getString();
-        worldText = propertyWorldText.getString();
+        this.startupState = this.config.getString("StartupState", CATEGORY_PRESENCE , "Starting Minecraft", "First line of text for rich presence when starting the game");
+        this.startupDetails = this.config.getString("StartupDetails", CATEGORY_PRESENCE, "", "Second line of text for rich presence when starting the game");
+
+        this.titleState = this.config.getString("TitleState", CATEGORY_PRESENCE, "In main menu", "First line of text for rich presence when in the title screen");
+        this.titleDetails = this.config.getString("TitleDetails",CATEGORY_PRESENCE , "", "Second line of text for rich presence when in the title screen");
+
+        this.worldState = this.config.getString("WorldState", CATEGORY_PRESENCE , "Playing in a world", "First line of text for rich presence when playing in a world");
+        this.worldDetails = this.config.getString("WorldDetails", CATEGORY_PRESENCE, "", "Second line line of text for rich presence when playing in a world");
 
         if (this.config.hasChanged()) {
             this.config.save();

@@ -3,11 +3,17 @@ package com.github.minecraft_ta.totalpresence;
 
 import com.github.minecraft_ta.totalpresence.config.TotalPresenceConfig;
 import com.github.minecraft_ta.totalpresence.discord.Discord;
+import com.github.minecraft_ta.totalpresence.handler.DiscordHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.File;
 
 @Mod(
         modid = TotalPresence.MOD_ID,
@@ -23,18 +29,32 @@ public class TotalPresence {
     @Mod.Instance(MOD_ID)
     public static TotalPresence INSTANCE;
 
-    public static TotalPresenceConfig CONFIG;
+    private TotalPresenceConfig config;
 
-    public static Discord DISCORD;
+    private Discord discord;
 
+    @SideOnly(Side.CLIENT)
     @Mod.EventHandler
-    public void preinit(FMLPreInitializationEvent event) {
-        CONFIG = new TotalPresenceConfig(new Configuration(event.getSuggestedConfigurationFile()));
-        DISCORD = new Discord(CONFIG.applicationID, CONFIG.startupText, "*Was passiert hier lol*", "test");
+    public void onModConstruction(FMLConstructionEvent event) {
+        this.config = new TotalPresenceConfig(new Configuration(new File(Loader.instance().getConfigDir(), MOD_ID + ".cfg")));
+        this.discord = new Discord(config.applicationID, config.startupState, config.startupDetails, "starting");
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            this.discord.shutdown();
+        }));
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(CONFIG);
+        MinecraftForge.EVENT_BUS.register(config);
+        MinecraftForge.EVENT_BUS.register(new DiscordHandler());
+    }
+
+    public TotalPresenceConfig getConfig() {
+        return config;
+    }
+
+    public Discord getDiscord() {
+        return discord;
     }
 }
