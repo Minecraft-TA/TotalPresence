@@ -14,12 +14,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DiscordHandler {
 
-    @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onWorldJoin(EntityJoinWorldEvent event) {
-        if (event.getEntity() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.getEntity();
-            TotalPresence.INSTANCE.getDiscord().setPresence(TotalPresence.INSTANCE.getConfig().worldState, "Dimension: " + player.world.provider.getDimensionType().getName(), "world");
+        if (event.getWorld().isRemote) {
+            if (event.getEntity() instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) event.getEntity();
+            }
         }
     }
 
@@ -29,7 +29,6 @@ public class DiscordHandler {
         if (event.getGui() instanceof GuiMainMenu) {
             Discord discord = TotalPresence.INSTANCE.getDiscord();
             TotalPresenceConfig config = TotalPresence.INSTANCE.getConfig();
-            discord.setPresence(config.titleState, "Mods: " + Loader.instance().getActiveModList().size(), "title");
         }
     }
 }

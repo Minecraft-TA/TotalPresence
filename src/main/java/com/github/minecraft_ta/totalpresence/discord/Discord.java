@@ -16,13 +16,32 @@ public class Discord {
 
         this.lib.Discord_Initialize(applicationID, handlers, true, null);
         this.presence.startTimestamp = System.currentTimeMillis() / 1000;
-        setPresence(state, details, imgKey);
+        setPresence(state, details, imgKey, "");
     }
 
-    public void setPresence(String details, String state, String imgKey) {
+    public void setPresence(String details, String state) {
+        this.presence.state = state;
+        this.presence.details = details;
+
+        lib.Discord_UpdatePresence(this.presence);
+    }
+
+    public void setPresence(String details, String state, String imgKey, String imgText) {
         this.presence.state = state;
         this.presence.details = details;
         this.presence.largeImageKey = imgKey;
+        this.presence.largeImageText = imgText;
+
+        lib.Discord_UpdatePresence(this.presence);
+    }
+
+    public void setPresence(String details, String state, String imgKey, String imgText, String smallImgKey, String smallImgText) {
+        this.presence.state = state;
+        this.presence.details = details;
+        this.presence.largeImageKey = imgKey;
+        this.presence.largeImageText = imgText;
+        this.presence.smallImageKey = smallImgKey;
+        this.presence.smallImageText = smallImgText;
 
         lib.Discord_UpdatePresence(this.presence);
     }
