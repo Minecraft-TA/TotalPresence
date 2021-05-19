@@ -19,6 +19,8 @@ public class TotalPresenceConfig {
     public String titleDetails;
     public String worldState;
     public String worldDetails;
+    public String imgText;
+    public String smallImgText;
 
     public TotalPresenceConfig(Configuration config) {
         this.config = config;
@@ -38,16 +40,21 @@ public class TotalPresenceConfig {
 
         this.applicationID = this.config.getString("Application-ID", CATEGORY_PRESENCE, "843108003023552532", "Application ID for custom icons");
 
-        this.startupState = this.config.getString("StartupState", CATEGORY_PRESENCE, "Starting Minecraft", "First line of text for rich presence when starting the game");
-        this.startupDetails = this.config.getString("StartupDetails", CATEGORY_PRESENCE, "test", "Second line of text for rich presence when starting the game");
+        this.imgText = this.config.getString("ImageText", CATEGORY_PRESENCE, "Minecraft", "Description of the displayed image");
+        this.smallImgText = this.config.getString("SmallImageText", CATEGORY_PRESENCE, "(c)", "Description of the small Image");
 
-        this.titleState = this.config.getString("TitleState", CATEGORY_PRESENCE, "Main Menu", "First line of text for rich presence when in the title screen");
-        this.titleDetails = this.config.getString("TitleDetails", CATEGORY_PRESENCE, "test", "Second line of text for rich presence when in the title screen");
+        this.startupState = this.config.getString("StartupState", CATEGORY_PRESENCE, "Starting Minecraft", "First line of text for rich presence when starting the game");
+        this.startupDetails = this.config.getString("StartupDetails", CATEGORY_PRESENCE, "", "Second line of text for rich presence when starting the game");
+
+        this.titleState = this.config.getString("TitleState", CATEGORY_PRESENCE, "%mods% Mods", "First line of text for rich presence when in the title screen");
+        this.titleDetails = this.config.getString("TitleDetails", CATEGORY_PRESENCE, "Main Menu", "Second line of text for rich presence when in the title screen");
 
         this.worldState = this.config.getString("WorldState", CATEGORY_PRESENCE, "Playing in a world", "First line of text for rich presence when playing in a world");
-        this.worldDetails = this.config.getString("WorldDetails", CATEGORY_PRESENCE, "test", "Second line line of text for rich presence when playing in a world");
+        this.worldDetails = this.config.getString("WorldDetails", CATEGORY_PRESENCE, "Dimension: %dimension%", "Second line line of text for rich presence when playing in a world");
 
         this.config.setCategoryPropertyOrder(CATEGORY_PRESENCE, Arrays.asList(
+                "ImageText",
+                "SmallImageText",
                 "Application-ID",
                 "StartupState",
                 "StartupDetails",

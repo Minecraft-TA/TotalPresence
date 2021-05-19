@@ -33,15 +33,16 @@ public class TotalPresence {
 
     private Discord discord;
 
-    @SideOnly(Side.CLIENT)
     @Mod.EventHandler
     public void onModConstruction(FMLConstructionEvent event) {
-        this.config = new TotalPresenceConfig(new Configuration(new File(Loader.instance().getConfigDir(), MOD_ID + ".cfg")));
-        this.discord = new Discord(config.applicationID, config.startupState, config.startupDetails, "starting");
+        if (event.getSide().isClient()) {
+            this.config = new TotalPresenceConfig(new Configuration(new File(Loader.instance().getConfigDir(), MOD_ID + ".cfg")));
+            this.discord = new Discord(config.applicationID, config.startupState, config.startupDetails, "starting", config.imgText, "small", config.smallImgText);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            this.discord.shutdown();
-        }));
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                this.discord.shutdown();
+            }));
+        }
     }
 
     @Mod.EventHandler

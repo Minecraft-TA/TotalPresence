@@ -5,6 +5,7 @@ import com.github.minecraft_ta.totalpresence.config.TotalPresenceConfig;
 import com.github.minecraft_ta.totalpresence.discord.Discord;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.DimensionType;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Loader;
@@ -17,8 +18,10 @@ public class DiscordHandler {
     @SubscribeEvent
     public void onWorldJoin(EntityJoinWorldEvent event) {
         if (event.getWorld().isRemote) {
-            if (event.getEntity() instanceof EntityPlayer) {
-                EntityPlayer player = (EntityPlayer) event.getEntity();
+            TotalPresenceConfig config = TotalPresence.INSTANCE.getConfig();
+            if (event.getEntity() instanceof EntityPlayer && config.worldDetails.contains("%dimension%")) {
+                DimensionType type = event.getWorld().provider.getDimensionType();
+                TotalPresence.INSTANCE.getDiscord().setPresence(config.worldState, config.worldDetails.replace("%dimension%", type.getName()));
             }
         }
     }
@@ -29,6 +32,7 @@ public class DiscordHandler {
         if (event.getGui() instanceof GuiMainMenu) {
             Discord discord = TotalPresence.INSTANCE.getDiscord();
             TotalPresenceConfig config = TotalPresence.INSTANCE.getConfig();
+            discord.setPresence(config.titleState.replace("%mods%", Loader.instance().getActiveModList().size() + ""), config.titleDetails, "starting", "");
         }
     }
 }

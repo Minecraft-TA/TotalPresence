@@ -9,14 +9,14 @@ public class Discord {
     private final DiscordRPC lib;
     private final DiscordRichPresence presence;
 
-    public Discord(String applicationID, String state, String details, String imgKey) {
+    public Discord(String applicationID, String state, String details, String imgKey, String imgText, String smallImgKey, String smallImgText) {
         DiscordEventHandlers handlers = new DiscordEventHandlers();
         this.lib = DiscordRPC.INSTANCE;
         this.presence = new DiscordRichPresence();
 
         this.lib.Discord_Initialize(applicationID, handlers, true, null);
         this.presence.startTimestamp = System.currentTimeMillis() / 1000;
-        setPresence(state, details, imgKey, "");
+        setPresence(state, details, imgKey, imgText, smallImgKey, smallImgText);
     }
 
     public void setPresence(String details, String state) {
