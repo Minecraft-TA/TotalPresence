@@ -7,9 +7,9 @@ import com.github.minecraft_ta.totalpresence.handler.DiscordHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import java.io.File;
 
@@ -22,7 +22,7 @@ public class TotalPresence {
 
     public static final String MOD_ID = "totalpresence";
     public static final String MOD_NAME = "TotalPresence";
-    public static final String VERSION = "1.0-SNAPSHOT";
+    public static final String VERSION = "1.0.0";
 
     @Mod.Instance(MOD_ID)
     public static TotalPresence INSTANCE;
