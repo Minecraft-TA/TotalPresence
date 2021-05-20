@@ -10,8 +10,6 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.File;
 
@@ -37,7 +35,7 @@ public class TotalPresence {
     public void onModConstruction(FMLConstructionEvent event) {
         if (event.getSide().isClient()) {
             this.config = new TotalPresenceConfig(new Configuration(new File(Loader.instance().getConfigDir(), MOD_ID + ".cfg")));
-            this.discord = new Discord(config.applicationID, config.startupState, config.startupDetails, "starting", config.imgText, "small", config.smallImgText);
+            this.discord = new Discord(config.applicationID);
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 this.discord.shutdown();
